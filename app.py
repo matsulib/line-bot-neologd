@@ -60,6 +60,7 @@ def handle_message(event):
     if len(abstructs) == 0:
         # 概要がなかった
         line_bot_api.reply_message(event.reply_token, error_image_send_message())
+        return
     abstruct = ' '.join(abstructs)
     # 日付削除（固有名詞に含まれてしまうので）
     abstruct = remove_date(abstruct)
