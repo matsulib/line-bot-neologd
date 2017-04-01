@@ -16,7 +16,7 @@ aws_bucket_name = os.getenv('AWS_BUCKET_NAME')
 aws_s3_base = os.getenv('AWS_S3_BASE')
 aws_bucket_base = '{}/{}'.format(aws_s3_base, aws_bucket_name)
 
-# mecab
+# mecab (see: https://github.com/matsulib/mecab-service)
 mecab_neologd_url = os.getenv('MECAB_NEOLOGD_URL')
 
 # エラー画像
