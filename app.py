@@ -55,6 +55,7 @@ def handle_message(event):
     # とりあえず返信
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text='ちょっと待ってね'))
 
+    # 処理をキューに登録して非同期で実行
     q = Queue(connection=conn)
     q.enqueue(push_keyword_images, sender_id, text, 3)
     return
