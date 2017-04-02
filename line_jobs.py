@@ -21,7 +21,7 @@ line_bot_api = settings.line_bot_api
 
 
 # textに関連するキーワードと画像をsender_idに通知する
-def push_keyword_images(sender_id, text, num=3):
+def push_keyword_images(message_id, sender_id, text, num=3):
     # 絞り込みワード
     text += ' とは'
     # google検索で概要取得
@@ -64,7 +64,7 @@ def push_keyword_images(sender_id, text, num=3):
         # Push実行
         line_bot_api.push_message(sender_id, push_messages)
 
-    line_bot_api.push_message(sender_id, TextSendMessage(text='処理が終わったよ'))
+    line_bot_api.push_message(sender_id, TextSendMessage(text='おわた [id:{}]'.format(message_id)))
 
 
 # エラー画像

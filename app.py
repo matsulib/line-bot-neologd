@@ -50,15 +50,21 @@ def callback():
 def handle_message(event):
     # 受信メッセージ
     text = event.message.text.replace('\n', ' ')
+    # メッセージID
+    message_id = event.message.id
     # 送信者ID
     sender_id = event.source.sender_id
     # とりあえず返信
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='ちょっと待ってね'))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='ちょっと待ってね [id:{}]'.format(message_id)))
 
     # 処理をキューに登録して非同期で実行
     q = Queue(connection=conn)
-    q.enqueue(push_keyword_images, sender_id, text, 3)
-    return
+    q.enqueue(push_keyword_images, message_id, sender_id, text, 3)
+
+
+@handler.default()
+def default(event):
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='\U0001f604'))
 
 
 if __name__ == '__main__':
