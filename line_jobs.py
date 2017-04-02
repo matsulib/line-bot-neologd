@@ -53,14 +53,14 @@ def push_keyword_images(message_id, sender_id, text, num=3):
         try:
             # サムネイル画像を作成
             url = make_thumbnail_url(word)
+            # Push画像の追加
+            push_messages.append(ImageSendMessage(
+                        original_content_url=url['img'],
+                        preview_image_url=url['preview_img']))
         except OSError as e:
             # 処理する画像を開けなかった
             # エラー画像を追加
             push_messages.append(error_image_send_message())
-        # Push画像の追加
-        push_messages.append(ImageSendMessage(
-                        original_content_url=url['img'],
-                        preview_image_url=url['preview_img']))
         # Push実行
         line_bot_api.push_message(sender_id, push_messages)
 
