@@ -25,7 +25,7 @@ def get_abstructs(word, num=10):
 # wikipedia日本語ページが存在するか
 def does_exist_in_wiki(title):
     query = 'https://ja.wikipedia.org/w/api.php?action=query&titles={}&format=json'
-    return requests.get(query.format(quote(title))).text.find('pageid') >= 0
+    return requests.get(query.format(qquote(title))).text.find('pageid') >= 0
 
 
 # wikipedia日本語ページのURL

@@ -19,5 +19,8 @@ aws_bucket_base = '{}/{}'.format(aws_s3_base, aws_bucket_name)
 # mecab (see: https://github.com/matsulib/mecab-service)
 mecab_neologd_url = os.getenv('MECAB_NEOLOGD_URL')
 
+# redis
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+
 # エラー画像
 error_img_url = os.getenv('ERROR_IMAGE_URL')

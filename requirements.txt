@@ -4,5 +4,6 @@ lxml==3.4.2
 cssselect==1.0.1
 boto==2.43.0
 Pillow==4.0.0
+rq==0.7.1
 line-bot-sdk==1.1.0
 gunicorn==19.6.0
