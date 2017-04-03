@@ -20,10 +20,6 @@ from line_jobs import push_keyword_images
 line_bot_api = settings.line_bot_api
 handler = settings.handler
 
-# AWS
-aws_access_key_id = settings.aws_access_key_id
-aws_secret_access_key = settings.aws_secret_access_key
-aws_bucket_base = settings.aws_bucket_base
 
 app = Flask(__name__)
 
@@ -48,22 +44,19 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 受信メッセージ
-    text = event.message.text.replace('\n', ' ')
-    # メッセージID
-    message_id = event.message.id
-    # 送信者ID
-    sender_id = event.source.sender_id
     # とりあえず返信
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='ちょっと待ってね [id:{}]'.format(message_id)))
+    line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text='ちょっと待ってね [id:{}]'.format(event.message.id)))
 
     # 処理をキューに登録して非同期で実行
     q = Queue(connection=conn)
-    q.enqueue(push_keyword_images, message_id, sender_id, text, 3)
+    q.enqueue(push_keyword_images, event.message.id, event.source.sender_id, event.message.text, 3)
 
 
 @handler.default()
 def default(event):
+    # 笑顔の絵文字を返信
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text='\U0001f604'))
 
 
