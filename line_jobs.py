@@ -22,6 +22,8 @@ line_bot_api = settings.line_bot_api
 
 # textに関連するキーワードと画像をsender_idに通知する
 def push_keyword_images(message_id, sender_id, text, num=3):
+    # 改行コード除去
+    text = text.replace('\n', ' ')
     # 絞り込みワード
     text += ' とは'
     # google検索で概要取得
@@ -50,17 +52,12 @@ def push_keyword_images(message_id, sender_id, text, num=3):
             push_text += '\n- ' + webutil.get_wikipedia_url(word)
         push_messages.append(TextSendMessage(text=push_text))
 
-        try:
-            # サムネイル画像を作成
-            url = make_thumbnail_url(word)
-            # Push画像の追加
-            push_messages.append(ImageSendMessage(
-                        original_content_url=url['img'],
-                        preview_image_url=url['preview_img']))
-        except OSError as e:
-            # 処理する画像を開けなかった
-            # エラー画像を追加
-            push_messages.append(error_image_send_message())
+        # サムネイル画像を作成
+        url = make_thumbnail_url(word)
+        # Push画像の追加
+        push_messages.append(ImageSendMessage(
+                    original_content_url=url['img'],
+                    preview_image_url=url['preview_img']))
         # Push実行
         line_bot_api.push_message(sender_id, push_messages)
 
